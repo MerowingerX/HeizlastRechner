@@ -1,0 +1,1001 @@
+{
+  "version": 1,
+  "meta": {
+    "name": "Beispielhaus",
+    "bauherr": "",
+    "strasse": "Musterweg 1",
+    "plz": "38100",
+    "ort": "Braunschweig",
+    "bearbeiter": "",
+    "datum": "2026-10-29",
+    "notiz": "Beispieldatei zum Testen"
+  },
+  "klima": {
+    "thetaE": -14,
+    "thetaEQuelle": "plz",
+    "referenzort": "Braunschweig",
+    "thetaMe": 9
+  },
+  "gebaeude": {
+    "typ": "EFH",
+    "baujahr": 1972,
+    "baualter": "vor1977",
+    "n50": 6,
+    "n50Gemessen": false,
+    "abschirmung": "mittel",
+    "lueftungsanlage": false,
+    "wrgEta": null
+  },
+  "anlage": {
+    "erzeuger": "Gas-Brennwerttherme",
+    "erzeugerLeistung": 20,
+    "systemart": "zweirohr",
+    "vorlauf": 65,
+    "ruecklauf": 50,
+    "heizkurve": {
+      "steilheit": 1.4,
+      "niveau": 0,
+      "raumsoll": 20,
+      "maxVorlauf": 75,
+      "heizgrenze": 16
+    },
+    "messungen": [],
+    "pumpe": "intern",
+    "pumpenDruck": 250,
+    "differenzdruckregler": false,
+    "notiz": ""
+  },
+  "bauteile": [
+    {
+      "id": "bt-aw",
+      "kategorie": "AW",
+      "name": "Außenwand (vor 1977 (unsaniert))",
+      "u": 1.4,
+      "deltaUTb": 0.1,
+      "notiz": "Schätzwert nach Baualter"
+    },
+    {
+      "id": "bt-fe",
+      "kategorie": "FE",
+      "name": "Fenster (vor 1977 (unsaniert))",
+      "u": 1.6,
+      "deltaUTb": 0.1,
+      "notiz": "Fenster 2005 getauscht"
+    },
+    {
+      "id": "bt-df",
+      "kategorie": "DF",
+      "name": "Dachfenster (vor 1977 (unsaniert))",
+      "u": 2.5,
+      "deltaUTb": 0.1,
+      "notiz": "Schätzwert nach Baualter"
+    },
+    {
+      "id": "bt-at",
+      "kategorie": "AT",
+      "name": "Außentür (vor 1977 (unsaniert))",
+      "u": 2.8,
+      "deltaUTb": 0.1,
+      "notiz": "Schätzwert nach Baualter"
+    },
+    {
+      "id": "bt-da",
+      "kategorie": "DA",
+      "name": "Dach / Dachschräge (vor 1977 (unsaniert))",
+      "u": 0.9,
+      "deltaUTb": 0.1,
+      "notiz": "Schätzwert nach Baualter"
+    },
+    {
+      "id": "bt-de",
+      "kategorie": "DE",
+      "name": "Decke (vor 1977 (unsaniert))",
+      "u": 0.9,
+      "deltaUTb": 0.1,
+      "notiz": "Schätzwert nach Baualter"
+    },
+    {
+      "id": "bt-fb",
+      "kategorie": "FB",
+      "name": "Fußboden (vor 1977 (unsaniert))",
+      "u": 1,
+      "deltaUTb": 0.1,
+      "notiz": "Schätzwert nach Baualter"
+    },
+    {
+      "id": "bt-iw",
+      "kategorie": "IW",
+      "name": "Innenwand",
+      "u": 1.8,
+      "deltaUTb": 0,
+      "notiz": "Schätzwert"
+    },
+    {
+      "id": "bt-it",
+      "kategorie": "IT",
+      "name": "Innentür",
+      "u": 2,
+      "deltaUTb": 0,
+      "notiz": "Schätzwert"
+    },
+    {
+      "id": "bt-htw",
+      "kategorie": "HTW",
+      "name": "Haustrennwand",
+      "u": 1,
+      "deltaUTb": 0,
+      "notiz": "Schätzwert"
+    },
+    {
+      "id": "bt-de-innen",
+      "kategorie": "DE",
+      "name": "Geschossdecke (innen)",
+      "u": 1,
+      "deltaUTb": 0,
+      "notiz": "Schätzwert"
+    }
+  ],
+  "geschosse": [
+    {
+      "id": "g-eg",
+      "name": "EG",
+      "geschosshoehe": 2.75,
+      "lichteHoehe": 2.5,
+      "unten": {
+        "art": "unbeheizt",
+        "bezeichnung": "Keller unbeheizt",
+        "theta": 3
+      },
+      "oben": {
+        "art": "beheizt",
+        "bezeichnung": "OG",
+        "theta": 20
+      }
+    },
+    {
+      "id": "g-og",
+      "name": "OG",
+      "geschosshoehe": 2.75,
+      "lichteHoehe": 2.5,
+      "unten": {
+        "art": "beheizt",
+        "bezeichnung": "EG",
+        "theta": 20
+      },
+      "oben": {
+        "art": "unbeheizt",
+        "bezeichnung": "Dachboden unbeheizt",
+        "theta": -10.6
+      }
+    }
+  ],
+  "raeume": [
+    {
+      "id": "r-eg-wohnen",
+      "geschossId": "g-eg",
+      "nummer": "0.01",
+      "name": "Wohnzimmer",
+      "nutzung": "wohnen",
+      "thetaInt": 20,
+      "nMin": 0.5,
+      "grundflaeche": 28,
+      "lichteHoehe": null,
+      "flaechen": [
+        {
+          "id": "f-eg-wohnen-aw-s",
+          "bauteilId": "bt-aw",
+          "orientierung": "S",
+          "laenge": 6.4,
+          "hoehe": null,
+          "flaecheDirekt": null,
+          "angrenzung": {
+            "art": "aussen"
+          },
+          "oeffnungen": [
+            {
+              "id": "o-eg-wohnen-1",
+              "bauteilId": "bt-fe",
+              "bezeichnung": "Terrassentür",
+              "breite": 2.0,
+              "hoehe": 2.1,
+              "anzahl": 1
+            },
+            {
+              "id": "o-eg-wohnen-2",
+              "bauteilId": "bt-fe",
+              "bezeichnung": "",
+              "breite": 1.2,
+              "hoehe": 1.4,
+              "anzahl": 1
+            }
+          ]
+        },
+        {
+          "id": "f-eg-wohnen-aw-w",
+          "bauteilId": "bt-aw",
+          "orientierung": "W",
+          "laenge": 4.8,
+          "hoehe": null,
+          "flaecheDirekt": null,
+          "angrenzung": {
+            "art": "aussen"
+          },
+          "oeffnungen": [
+            {
+              "id": "o-eg-wohnen-3",
+              "bauteilId": "bt-fe",
+              "bezeichnung": "",
+              "breite": 1.2,
+              "hoehe": 1.4,
+              "anzahl": 1
+            }
+          ]
+        },
+        {
+          "id": "f-eg-wohnen-fb",
+          "bauteilId": "bt-fb",
+          "orientierung": "H",
+          "laenge": 0,
+          "hoehe": null,
+          "flaecheDirekt": 28,
+          "angrenzung": {
+            "art": "unbeheizt",
+            "bezeichnung": "Keller unbeheizt",
+            "theta": 3
+          },
+          "oeffnungen": []
+        }
+      ],
+      "heizkoerper": [
+        {
+          "id": "hk-eg-wohnen-1",
+          "bezeichnung": "unter Fenster S",
+          "typ": "platte",
+          "bauart": "22",
+          "bauhoehe": 600,
+          "baulaenge": 1400,
+          "bautiefe": 100,
+          "phiN": 2090,
+          "exponent": 1.3,
+          "anzahl": 1,
+          "ventil": {
+            "hersteller": "Heimeier",
+            "modell": "V-exact II",
+            "voreinstellbar": true,
+            "aktuelleEinstellung": "N",
+            "nennweite": "DN15"
+          },
+          "leitungslaenge": 6
+        },
+        {
+          "id": "hk-eg-wohnen-2",
+          "bezeichnung": "unter Fenster W",
+          "typ": "platte",
+          "bauart": "22",
+          "bauhoehe": 600,
+          "baulaenge": 1000,
+          "bautiefe": 100,
+          "phiN": 1490,
+          "exponent": 1.3,
+          "anzahl": 1,
+          "ventil": {
+            "hersteller": "Heimeier",
+            "modell": "V-exact II",
+            "voreinstellbar": true,
+            "aktuelleEinstellung": "N",
+            "nennweite": "DN15"
+          },
+          "leitungslaenge": 8
+        }
+      ],
+      "lage": {
+        "x": 0,
+        "y": 4.4,
+        "breite": 6.0,
+        "tiefe": 4.65
+      }
+    },
+    {
+      "id": "r-eg-flur",
+      "geschossId": "g-eg",
+      "nummer": "0.02",
+      "name": "Flur",
+      "nutzung": "flur",
+      "thetaInt": 15,
+      "nMin": 0.5,
+      "grundflaeche": 8,
+      "lichteHoehe": null,
+      "flaechen": [
+        {
+          "id": "f-eg-flur-aw-n",
+          "bauteilId": "bt-aw",
+          "orientierung": "N",
+          "laenge": 2.4,
+          "hoehe": null,
+          "flaecheDirekt": null,
+          "angrenzung": {
+            "art": "aussen"
+          },
+          "oeffnungen": [
+            {
+              "id": "o-eg-flur-1",
+              "bauteilId": "bt-at",
+              "bezeichnung": "Haustür",
+              "breite": 1.1,
+              "hoehe": 2.1,
+              "anzahl": 1
+            }
+          ]
+        },
+        {
+          "id": "f-eg-flur-fb",
+          "bauteilId": "bt-fb",
+          "orientierung": "H",
+          "laenge": 0,
+          "hoehe": null,
+          "flaecheDirekt": 8,
+          "angrenzung": {
+            "art": "unbeheizt",
+            "bezeichnung": "Keller unbeheizt",
+            "theta": 3
+          },
+          "oeffnungen": []
+        }
+      ],
+      "heizkoerper": [
+        {
+          "id": "hk-eg-flur-1",
+          "bezeichnung": "neben Haustür",
+          "typ": "platte",
+          "bauart": "22",
+          "bauhoehe": 600,
+          "baulaenge": 600,
+          "bautiefe": 100,
+          "phiN": 890,
+          "exponent": 1.3,
+          "anzahl": 1,
+          "ventil": {
+            "hersteller": "Heimeier",
+            "modell": "V-exact II",
+            "voreinstellbar": true,
+            "aktuelleEinstellung": "N",
+            "nennweite": "DN15"
+          },
+          "leitungslaenge": 3
+        }
+      ],
+      "lage": {
+        "x": 0,
+        "y": 0,
+        "breite": 2.0,
+        "tiefe": 4.0
+      }
+    },
+    {
+      "id": "r-og-bad",
+      "geschossId": "g-og",
+      "nummer": "1.01",
+      "name": "Bad",
+      "nutzung": "bad",
+      "thetaInt": 24,
+      "nMin": 0.5,
+      "grundflaeche": 7,
+      "lichteHoehe": null,
+      "flaechen": [
+        {
+          "id": "f-og-bad-aw-n",
+          "bauteilId": "bt-aw",
+          "orientierung": "N",
+          "laenge": 2.8,
+          "hoehe": null,
+          "flaecheDirekt": null,
+          "angrenzung": {
+            "art": "aussen"
+          },
+          "oeffnungen": [
+            {
+              "id": "o-og-bad-1",
+              "bauteilId": "bt-fe",
+              "bezeichnung": "",
+              "breite": 0.6,
+              "hoehe": 0.8,
+              "anzahl": 1
+            }
+          ]
+        },
+        {
+          "id": "f-og-bad-iw",
+          "bauteilId": "bt-iw",
+          "orientierung": "O",
+          "laenge": 3.0,
+          "hoehe": null,
+          "flaecheDirekt": null,
+          "angrenzung": {
+            "art": "beheizt",
+            "bezeichnung": "Treppenhaus",
+            "theta": 15
+          },
+          "oeffnungen": []
+        },
+        {
+          "id": "f-og-bad-de",
+          "bauteilId": "bt-de",
+          "orientierung": "H",
+          "laenge": 0,
+          "hoehe": null,
+          "flaecheDirekt": 7,
+          "angrenzung": {
+            "art": "unbeheizt",
+            "bezeichnung": "Dachboden unbeheizt",
+            "theta": -10.6
+          },
+          "oeffnungen": []
+        }
+      ],
+      "heizkoerper": [
+        {
+          "id": "hk-og-bad-1",
+          "bezeichnung": "Badheizkörper",
+          "typ": "roehren",
+          "bauart": "",
+          "bauhoehe": 1200,
+          "baulaenge": 600,
+          "bautiefe": 100,
+          "phiN": 600,
+          "exponent": 1.25,
+          "anzahl": 1,
+          "ventil": {
+            "hersteller": "",
+            "modell": "",
+            "voreinstellbar": false,
+            "aktuelleEinstellung": "N",
+            "nennweite": "DN15"
+          },
+          "leitungslaenge": 12
+        }
+      ],
+      "lage": {
+        "x": 0,
+        "y": 0,
+        "breite": 2.6,
+        "tiefe": 2.7
+      }
+    }
+  ],
+  "verbrauch": [
+    {
+      "id": "v-2024",
+      "zeitraum": "2024",
+      "traeger": "erdgas",
+      "menge": 8800,
+      "einheit": "kWh",
+      "inklWarmwasser": true,
+      "nutzungsgrad": 0.9,
+      "notiz": "Beispielwert (nur 3 Räume erfasst)",
+      "gradtagzahl": 3400
+    }
+  ],
+  "messreihen": [
+    {
+      "id": "m-wohnen-1",
+      "raumId": "r-eg-wohnen",
+      "name": "Auskühlung Januar (simuliert)",
+      "punkte": [
+        {
+          "t": "2026-01-15T22:00:00Z",
+          "innen": 20.5,
+          "aussen": 3.5,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T22:10:00Z",
+          "innen": 20.34,
+          "aussen": 3.5,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T22:20:00Z",
+          "innen": 20.19,
+          "aussen": 3.49,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T22:30:00Z",
+          "innen": 20.03,
+          "aussen": 3.49,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T22:40:00Z",
+          "innen": 19.88,
+          "aussen": 3.48,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T22:50:00Z",
+          "innen": 19.73,
+          "aussen": 3.46,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T23:00:00Z",
+          "innen": 19.58,
+          "aussen": 3.45,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T23:10:00Z",
+          "innen": 19.43,
+          "aussen": 3.43,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T23:20:00Z",
+          "innen": 19.28,
+          "aussen": 3.41,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T23:30:00Z",
+          "innen": 19.13,
+          "aussen": 3.39,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T23:40:00Z",
+          "innen": 18.99,
+          "aussen": 3.36,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-15T23:50:00Z",
+          "innen": 18.84,
+          "aussen": 3.33,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T00:00:00Z",
+          "innen": 18.7,
+          "aussen": 3.3,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T00:10:00Z",
+          "innen": 18.56,
+          "aussen": 3.27,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T00:20:00Z",
+          "innen": 18.41,
+          "aussen": 3.23,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T00:30:00Z",
+          "innen": 18.27,
+          "aussen": 3.19,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T00:40:00Z",
+          "innen": 18.13,
+          "aussen": 3.15,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T00:50:00Z",
+          "innen": 17.99,
+          "aussen": 3.11,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T01:00:00Z",
+          "innen": 17.86,
+          "aussen": 3.06,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T01:10:00Z",
+          "innen": 17.72,
+          "aussen": 3.01,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T01:20:00Z",
+          "innen": 17.58,
+          "aussen": 2.96,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T01:30:00Z",
+          "innen": 17.45,
+          "aussen": 2.91,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T01:40:00Z",
+          "innen": 17.31,
+          "aussen": 2.86,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T01:50:00Z",
+          "innen": 17.18,
+          "aussen": 2.81,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T02:00:00Z",
+          "innen": 17.05,
+          "aussen": 2.75,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T02:10:00Z",
+          "innen": 16.91,
+          "aussen": 2.69,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T02:20:00Z",
+          "innen": 16.78,
+          "aussen": 2.63,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T02:30:00Z",
+          "innen": 16.65,
+          "aussen": 2.57,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T02:40:00Z",
+          "innen": 16.52,
+          "aussen": 2.51,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T02:50:00Z",
+          "innen": 16.39,
+          "aussen": 2.45,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T03:00:00Z",
+          "innen": 16.26,
+          "aussen": 2.39,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T03:10:00Z",
+          "innen": 16.13,
+          "aussen": 2.32,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T03:20:00Z",
+          "innen": 16.01,
+          "aussen": 2.26,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T03:30:00Z",
+          "innen": 15.88,
+          "aussen": 2.2,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T03:40:00Z",
+          "innen": 15.75,
+          "aussen": 2.13,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T03:50:00Z",
+          "innen": 15.63,
+          "aussen": 2.07,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T04:00:00Z",
+          "innen": 15.5,
+          "aussen": 2.0,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T04:10:00Z",
+          "innen": 15.38,
+          "aussen": 1.93,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T04:20:00Z",
+          "innen": 15.25,
+          "aussen": 1.87,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T04:30:00Z",
+          "innen": 15.13,
+          "aussen": 1.8,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T04:40:00Z",
+          "innen": 15.0,
+          "aussen": 1.74,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T04:50:00Z",
+          "innen": 14.88,
+          "aussen": 1.68,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T05:00:00Z",
+          "innen": 14.76,
+          "aussen": 1.61,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T05:10:00Z",
+          "innen": 14.64,
+          "aussen": 1.55,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T05:20:00Z",
+          "innen": 14.52,
+          "aussen": 1.49,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T05:30:00Z",
+          "innen": 14.4,
+          "aussen": 1.43,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T05:40:00Z",
+          "innen": 14.28,
+          "aussen": 1.37,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T05:50:00Z",
+          "innen": 14.16,
+          "aussen": 1.31,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T06:00:00Z",
+          "innen": 14.04,
+          "aussen": 1.25,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T06:10:00Z",
+          "innen": 13.92,
+          "aussen": 1.19,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T06:20:00Z",
+          "innen": 13.8,
+          "aussen": 1.14,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T06:30:00Z",
+          "innen": 13.68,
+          "aussen": 1.09,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T06:40:00Z",
+          "innen": 13.57,
+          "aussen": 1.04,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T06:50:00Z",
+          "innen": 13.45,
+          "aussen": 0.99,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T07:00:00Z",
+          "innen": 13.34,
+          "aussen": 0.94,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T07:10:00Z",
+          "innen": 13.22,
+          "aussen": 0.89,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T07:20:00Z",
+          "innen": 13.11,
+          "aussen": 0.85,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T07:30:00Z",
+          "innen": 12.99,
+          "aussen": 0.81,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T07:40:00Z",
+          "innen": 12.88,
+          "aussen": 0.77,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T07:50:00Z",
+          "innen": 12.77,
+          "aussen": 0.73,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T08:00:00Z",
+          "innen": 12.66,
+          "aussen": 0.7,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T08:10:00Z",
+          "innen": 12.55,
+          "aussen": 0.67,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T08:20:00Z",
+          "innen": 12.44,
+          "aussen": 0.64,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T08:30:00Z",
+          "innen": 12.33,
+          "aussen": 0.61,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T08:40:00Z",
+          "innen": 12.22,
+          "aussen": 0.59,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T08:50:00Z",
+          "innen": 12.11,
+          "aussen": 0.57,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T09:00:00Z",
+          "innen": 12.0,
+          "aussen": 0.55,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T09:10:00Z",
+          "innen": 11.9,
+          "aussen": 0.54,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T09:20:00Z",
+          "innen": 11.79,
+          "aussen": 0.52,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T09:30:00Z",
+          "innen": 11.69,
+          "aussen": 0.51,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T09:40:00Z",
+          "innen": 11.58,
+          "aussen": 0.51,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T09:50:00Z",
+          "innen": 11.48,
+          "aussen": 0.5,
+          "vl": null,
+          "rl": null
+        },
+        {
+          "t": "2026-01-16T10:00:00Z",
+          "innen": 11.38,
+          "aussen": 0.5,
+          "vl": null,
+          "rl": null
+        }
+      ],
+      "von": null,
+      "bis": null,
+      "notiz": "Beispieldaten"
+    }
+  ]
+}

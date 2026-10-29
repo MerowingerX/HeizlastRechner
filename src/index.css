@@ -1,0 +1,666 @@
+:root {
+  --bg: #f6f7f9;
+  --flaeche: #ffffff;
+  --text: #1d2330;
+  --leise: #5d6678;
+  --rand: #d9dde5;
+  --akzent: #c2410c;
+  --akzent-hell: #fff1e8;
+  --fehler: #b42318;
+  --fehler-hell: #fdecea;
+  --hinweis: #9a6700;
+  --hinweis-hell: #fff6dc;
+  --ok: #1a7f37;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171c;
+    --flaeche: #1d2128;
+    --text: #e6e9ef;
+    --leise: #9aa3b2;
+    --rand: #343a45;
+    --akzent: #fb923c;
+    --akzent-hell: #3a2414;
+    --fehler: #ff8a80;
+    --fehler-hell: #3b1d1b;
+    --hinweis: #f2c14e;
+    --hinweis-hell: #362c12;
+    --ok: #6fd08c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+.kopf {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  background: var(--flaeche);
+  border-bottom: 1px solid var(--rand);
+  flex-wrap: wrap;
+}
+.kopf h1 {
+  font-size: 18px;
+  margin: 0;
+  color: var(--akzent);
+}
+.projektname {
+  font-weight: 600;
+}
+.dateileiste {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.meldung {
+  font-size: 13px;
+  color: var(--leise);
+}
+
+.schritte {
+  background: var(--flaeche);
+  border-right: 1px solid var(--rand);
+  padding: 12px 8px;
+}
+.schritte ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: s;
+}
+.schritte li {
+  counter-increment: s;
+}
+.schritte button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+.schritte button span:first-child::before {
+  content: counter(s) '. ';
+  color: var(--leise);
+}
+.schritte button.aktiv {
+  background: var(--akzent-hell);
+  color: var(--akzent);
+  font-weight: 600;
+}
+
+.marke {
+  font-size: 11px;
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-weight: 600;
+}
+.marke.fehler {
+  background: var(--fehler-hell);
+  color: var(--fehler);
+}
+.marke.hinweis {
+  background: var(--hinweis-hell);
+  color: var(--hinweis);
+}
+
+.inhalt {
+  padding: 16px 24px 48px;
+  min-width: 0;
+}
+.inhalt h2 {
+  margin: 0 0 12px;
+}
+h4 {
+  margin: 16px 0 6px;
+  font-size: 14px;
+}
+
+.abschnitt {
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: 8px;
+  padding: 12px 16px 16px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+.abschnitt > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.abschnitt h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.raster {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px 16px;
+  align-items: end;
+}
+.feld {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.feld-breit {
+  grid-column: 1 / -1;
+}
+.feld label {
+  font-size: 13px;
+  color: var(--leise);
+}
+.hilfe {
+  color: var(--leise);
+  font-size: 12px;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  color: inherit;
+}
+input,
+select,
+textarea {
+  background: var(--bg);
+  border: 1px solid var(--rand);
+  border-radius: 5px;
+  padding: 5px 7px;
+  min-width: 0;
+}
+input[aria-invalid='true'] {
+  border-color: var(--fehler);
+  background: var(--fehler-hell);
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--akzent);
+  outline-offset: -1px;
+}
+button {
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) {
+  border-color: var(--akzent);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+button.primaer {
+  background: var(--akzent);
+  border-color: var(--akzent);
+  color: #fff;
+}
+button.gefahr {
+  color: var(--fehler);
+}
+button.loeschen {
+  border: none;
+  background: none;
+  color: var(--leise);
+}
+button.loeschen:hover:not(:disabled) {
+  color: var(--fehler);
+}
+button.mini {
+  font-size: 12px;
+  padding: 1px 6px;
+  margin-left: 8px;
+}
+
+.zahl {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.zahl input {
+  width: 100%;
+  text-align: right;
+}
+.zahl-klein input {
+  width: 72px;
+}
+.einheit {
+  color: var(--leise);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.haken {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding-bottom: 6px;
+}
+.knopfleiste {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--leise);
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--rand);
+  white-space: nowrap;
+}
+td {
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--rand);
+  vertical-align: middle;
+}
+td input:not([type='checkbox']),
+td select {
+  width: 100%;
+}
+.zahlzelle {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.unterzeile > td {
+  background: var(--bg);
+  padding: 8px 12px 12px 32px;
+}
+
+.angrenzung {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  min-width: 220px;
+}
+
+.zweispaltig {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.raumliste {
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: 8px;
+  padding: 8px;
+  position: sticky;
+  top: 8px;
+}
+.raumliste h4 {
+  margin: 6px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.raumliste ul {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+.raumliste li button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: none;
+  background: none;
+  padding: 5px 8px;
+  border-radius: 5px;
+}
+.raumliste li button small {
+  color: var(--leise);
+}
+.raumliste li button.aktiv {
+  background: var(--akzent-hell);
+}
+
+.karte {
+  border: 1px solid var(--rand);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+.karte > button {
+  margin-top: 10px;
+}
+
+.klein {
+  font-size: 13px;
+  color: var(--leise);
+}
+.leer {
+  color: var(--leise);
+  font-style: italic;
+}
+.info {
+  margin-top: 0;
+}
+.warnung {
+  color: var(--fehler);
+  font-weight: 600;
+}
+.ok {
+  color: var(--ok);
+  font-weight: 600;
+}
+
+.kennzahlen {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.kennzahlen div {
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+.kennzahlen dt {
+  font-size: 12px;
+  color: var(--leise);
+}
+.kennzahlen dd {
+  margin: 2px 0 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.befunde {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.befunde li button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-left: 3px solid;
+  border-radius: 0;
+  margin: 3px 0;
+}
+.befunde li.fehler button {
+  border-left-color: var(--fehler);
+  background: var(--fehler-hell);
+}
+.befunde li.hinweis button {
+  border-left-color: var(--hinweis);
+  background: var(--hinweis-hell);
+}
+
+.blaettern {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+@media (max-width: 800px) {
+  .app,
+  .zweispaltig {
+    grid-template-columns: 1fr;
+  }
+  .schritte ol {
+    display: flex;
+    overflow-x: auto;
+  }
+  .schritte button {
+    white-space: nowrap;
+  }
+  .raumliste {
+    position: static;
+  }
+}
+
+/* --- Navigation: Auswertung --- */
+.schritte .gruppe {
+  margin: 14px 10px 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--leise);
+}
+.schritte li.auswertung {
+  counter-increment: none;
+}
+.schritte li.auswertung button span:first-child::before {
+  content: '';
+}
+
+/* --- Ergebnis --- */
+.text-fehler {
+  color: var(--fehler);
+}
+.text-hinweis {
+  color: var(--hinweis);
+}
+tr.status-unterversorgt td:first-child {
+  box-shadow: inset 3px 0 0 var(--fehler);
+}
+tr.status-kein_hk td:first-child,
+tr.status-phiN_fehlt td:first-child {
+  box-shadow: inset 3px 0 0 var(--hinweis);
+}
+.einstellung b {
+  font-size: 16px;
+  color: var(--akzent);
+}
+.einstellung .alt {
+  color: var(--leise);
+  text-decoration: line-through;
+}
+tr.summe td {
+  font-weight: 600;
+  border-top: 2px solid var(--rand);
+}
+.befunde li > span {
+  display: block;
+  padding: 5px 10px;
+  border-left: 3px solid var(--hinweis);
+  background: var(--hinweis-hell);
+  margin: 3px 0;
+}
+.zweiteilig {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(200px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+table.schmal {
+  width: auto;
+}
+
+/* --- Diagramm --- */
+.diagramm {
+  margin: 0;
+}
+.diagramm svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.diagramm .gitter {
+  stroke: var(--rand);
+  stroke-width: 1;
+}
+.diagramm .achse {
+  fill: var(--leise);
+  font-size: 11px;
+}
+.diagramm .achse.titel {
+  font-size: 12px;
+}
+.diagramm .bereich {
+  fill: var(--akzent-hell);
+}
+.diagramm figcaption {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--leise);
+}
+.legende i {
+  display: inline-block;
+  width: 14px;
+  height: 3px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* --- Grundriss --- */
+.grundriss-rahmen {
+  overflow: auto;
+  max-height: 70vh;
+  border: 1px solid var(--rand);
+  border-radius: 6px;
+  background: var(--bg);
+}
+.grundriss {
+  display: block;
+  touch-action: none;
+  user-select: none;
+}
+.grundriss .raster-linie {
+  fill: none;
+  stroke: var(--rand);
+  stroke-width: 1;
+}
+.grundriss .raum rect:first-child {
+  stroke: var(--text);
+  stroke-width: 1.5;
+  fill-opacity: 0.55;
+  cursor: move;
+}
+.grundriss .raum.aktiv rect:first-child {
+  stroke: var(--akzent);
+  stroke-width: 3;
+}
+.grundriss .raum text {
+  fill: var(--text);
+  font-size: 12px;
+  pointer-events: none;
+}
+.grundriss .raum text.klein {
+  font-size: 10px;
+}
+.grundriss .griff {
+  fill: var(--akzent);
+  cursor: nwse-resize;
+}
+.grundriss .geist {
+  fill: none;
+  stroke: var(--leise);
+  stroke-dasharray: 4 4;
+}
+.grundriss .nordpfeil path {
+  fill: var(--akzent);
+}
+.grundriss .nordpfeil text {
+  fill: var(--akzent);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* --- 3D / Messung --- */
+.dreid {
+  width: 100%;
+  min-height: 520px;
+  border-radius: 6px;
+  background: linear-gradient(var(--bg), var(--flaeche));
+}
+.anleitung {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.5;
+}
+
+/* --- Druck (Bericht) --- */
+.nur-drucken {
+  display: none;
+}
+@media print {
+  :root {
+    --bg: #fff;
+    --flaeche: #fff;
+    --text: #000;
+    --leise: #444;
+    --rand: #bbb;
+    font-size: 11px;
+  }
+  .nicht-drucken,
+  .nicht-drucken * {
+    display: none !important;
+  }
+  .nur-drucken {
+    display: inline;
+    font-weight: 400;
+    font-size: 13px;
+  }
+  .app {
+    display: block;
+  }
+  .inhalt {
+    padding: 0;
+  }
+  .abschnitt {
+    break-inside: avoid;
+    border: none;
+    padding: 0;
+    overflow: visible;
+  }
+  table {
+    font-size: 10px;
+  }
+  tr {
+    break-inside: avoid;
+  }
+}
+
+@media (max-width: 800px) {
+  .zweiteilig {
+    grid-template-columns: 1fr;
+  }
+}
