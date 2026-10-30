@@ -112,6 +112,12 @@ function berechnen(datei: string): number {
     console.log(`${pad(`${e.geschoss} ${e.name}`, 22)}${z(e.thetaInt)}${z(e.phiT)}${z(e.phiV)}${z(e.phiHL)}${z(e.wProM2)}${z(r?.phiN ?? null)}${z(r?.vlNoetig ?? null, 1)} ${z(r?.deckungIst ?? null).slice(2)}`)
   }
   console.log(`\nGebäude: Φ_HL = ${f(g.phiHL / 1000, 2)} kW (Φ_T ${f(g.phiT / 1000, 2)} + Φ_V ${f(g.phiV / 1000, 2)}), ${f(g.wProM2, 0)} W/m², H = ${f(g.h, 0)} W/K, Σ Räume ${f(g.summeRaeume / 1000, 2)} kW`)
+  {
+    const o = p.optionen
+    const web = o.erdreich === 'bfaktor' && o.gebaeudeheizlast === 'summeRaeume'
+    const alt = berechne({ ...p, optionen: web ? { ...o, erdreich: 'iso13370', gebaeudeheizlast: 'huelle' } : { ...o, erdreich: 'bfaktor', gebaeudeheizlast: 'summeRaeume' } })
+    console.log(`Rechenoptionen: Erdreich ${o.erdreich === 'bfaktor' ? `b-Faktor ${f(o.erdreichB, 2)} (heizlast-web)` : 'EN ISO 13370'}, Gebäude ${o.gebaeudeheizlast === 'summeRaeume' ? 'Summe der Räume (heizlast-web)' : 'Außenhülle'} · zum Vergleich Ansatz ${web ? 'dieser App' : 'heizlast-web'}: ${f(alt.phiHL / 1000, 2)} kW`)
+  }
   console.log(`\nSystem: Vorlauf ${a.vorlauf ?? '–'} °C bei ${g.thetaE} °C (maßgebend: ${g.raeume.find((e) => e.raumId === a.massgebenderRaum)?.name ?? '–'}), Mischrücklauf ${a.ruecklaufMisch === null ? '–' : f(a.ruecklaufMisch, 1)} °C, Volumenstrom ${f(a.volumenstromGesamt, 0)} l/h`)
   if (a.steilheit !== null) console.log(`Heizkurve (linearisiert, Raum 20 °C): Steilheit ${f(a.steilheit, 2)}, Niveau ${f(a.niveau ?? 0, 1)} K`)
   console.log('  ' + a.heizkurve.filter((q) => q.aussen % 5 === 0).map((q) => `${q.aussen} °C → ${f(q.vorlauf, 1)}/${f(q.ruecklauf, 1)}`).join(' | '))

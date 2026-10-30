@@ -94,6 +94,9 @@ Vollständiges Schema: `npm run -s heizlast -- schema`. Maßgeblich ist `src/cor
 | `raeume[].lage` | `{ x, y, breite, tiefe }` in m, Innenmaße. Ursprung NW-Ecke des Geschosses, x nach Osten, y nach Süden. Für Grundriss und 3D |
 | `verbrauch[].gradtagzahl` | G20/15 des Abrechnungszeitraums (Kd), null = 3500 |
 | `messreihen[]` | `{ id, raumId, name, punkte: [{ t (ISO), innen, aussen, vl, rl }], von, bis, notiz }`. Am besten per CLI `messung` importieren |
+| `optionen.erdreich` | `iso13370` (Standard: U_equiv nach EN ISO 13370, f_g1, θ_m,e) oder `bfaktor` (wie heizlast-web: θ = 20 − b·(20 − θ_e)) |
+| `optionen.erdreichB` | b-Faktor für `bfaktor`, Standard 0,33 |
+| `optionen.gebaeudeheizlast` | `huelle` (Standard: Außenhülle, Infiltration 50 % gleichzeitig) oder `summeRaeume` (Summe der Raumheizlasten, wie heizlast-web) |
 
 ## Angrenzung (`angrenzung`, auch `unten`/`oben` im Geschoss)
 

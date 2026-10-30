@@ -113,6 +113,32 @@ describe('Raumheizlast', () => {
     expect(ue).toBeLessThan(1)
   })
 
+  it('Option Erdreich wie heizlast-web (b-Faktor)', () => {
+    const p = einRaum()
+    p.optionen.erdreich = 'bfaktor'
+    p.raeume[0].flaechen.push({
+      id: 'f3', bauteilId: 'fb', orientierung: 'H', laenge: 0, hoehe: null, flaecheDirekt: 16,
+      angrenzung: { art: 'erdreich' }, oeffnungen: [],
+    })
+    const posten = berechne(p).raeume[0].posten.find((x) => x.flaecheId === 'f3')!
+    // θ = 20 − 0,33 · (20 − (−10)) = 10,1 °C; Φ = 16 · (1,0 + 0) · (20 − 10,1)
+    expect(posten.thetaAdj).toBeCloseTo(10.1)
+    expect(posten.phi).toBeCloseTo(16 * 1.0 * 9.9)
+  })
+
+  it('Option Gebäudeheizlast = Summe der Räume', () => {
+    const p = einRaum()
+    p.raeume[0].flaechen.push({
+      id: 'f2', bauteilId: 'aw', orientierung: 'N', laenge: 0, hoehe: null, flaecheDirekt: 10,
+      angrenzung: { art: 'beheizt', bezeichnung: 'Flur', theta: 15 }, oeffnungen: [],
+    })
+    const huelle = berechne(p)
+    p.optionen.gebaeudeheizlast = 'summeRaeume'
+    const summe = berechne(p)
+    expect(summe.phiHL).toBeCloseTo(summe.summeRaeume)
+    expect(summe.phiHL).toBeGreaterThanOrEqual(huelle.phiHL)
+  })
+
   it('U_equiv EN ISO 13370 Referenzwert', () => {
     // U 1,0 → d_t = 0,3 + 2·(0,17 + 0,79 + 0,04) = 2,3; B' 4 → 0,502
     expect(uEquivBodenplatte(1.0, 4)).toBeCloseTo(0.502, 3)

@@ -142,6 +142,8 @@ function thetaAdjazent(p: Projekt, a: Angrenzung, thetaE: number): number {
     case 'aussen':
       return thetaE
     case 'erdreich':
+      // Modus 'bfaktor' (heizlast-web): Erdreich wie unbeheizter Nachbarbereich, θ = 20 − b · (20 − θ_e)
+      if (p.optionen.erdreich === 'bfaktor') return 20 - p.optionen.erdreichB * (20 - thetaE)
       return p.klima.thetaMe ?? 9
     case 'unbeheizt':
     case 'beheizt':
@@ -173,7 +175,7 @@ export function berechneRaum(p: Projekt, r: Raum, thetaE: number, bStrich: numbe
     const thetaAdj = thetaAdjazent(p, a, thetaE)
     let uKorr: number
     let phi: number
-    if (a.art === 'erdreich') {
+    if (a.art === 'erdreich' && p.optionen.erdreich === 'iso13370') {
       // Φ = A · U_equiv · f_g1 · G_w · (θ_int − θ_m,e)   (= … · f_g2 · (θ_int − θ_e))
       uKorr = t.kategorie === 'FB' && bStrich !== null ? uEquivBodenplatte(t.u, bStrich) : t.u
       phi = flaeche * uKorr * F_G1 * G_W * (ti - thetaAdj)
@@ -263,7 +265,14 @@ export function berechne(p: Projekt): GebaeudeErgebnis {
   // gleichzeitig wirksam (Wind nur auf einer Seite), Mindestluftwechsel voll.
   let phiT = 0
   let phiV = 0
+  const summeRaeume = p.optionen.gebaeudeheizlast === 'summeRaeume'
   for (const e of raeume) {
+    if (summeRaeume) {
+      // Modus 'summeRaeume' (heizlast-web): Gebäudeheizlast = Σ Φ_T,i + Σ Φ_V,i
+      phiT += e.phiT
+      phiV += e.phiV
+      continue
+    }
     phiT += e.posten.filter((x) => x.art !== 'raum').reduce((s, x) => s + x.phi, 0)
     const dTe = e.thetaInt - thetaE
     const v = p.gebaeude.lueftungsanlage

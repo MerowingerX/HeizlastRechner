@@ -8,7 +8,7 @@ import { bewerteVerhaeltnis, werteVerbrauchAus } from '../../core/verbrauch'
 import { berechneVoreinstellungen, type Voreinstellung } from '../../core/ventile'
 import { useProjekt } from '../../store'
 import { Diagramm } from '../Diagramm'
-import { Abschnitt, fmt, Zahl } from '../felder'
+import { Abschnitt, Auswahl, fmt, Zahl } from '../felder'
 
 export interface Gesamtergebnis {
   g: GebaeudeErgebnis
@@ -49,6 +49,18 @@ export function ErgebnisSchritt({ befundFehler }: { befundFehler: number }) {
   const p = useProjekt((s) => s.projekt)
   const aendern = useProjekt((s) => s.aendern)
   const ergebnis = useMemo(() => rechneAlles(p), [p])
+  // Gegenrechnung mit dem jeweils anderen Ansatz (diese App ↔ heizlast-web)
+  const vergleich = useMemo(() => {
+    const webModus = p.optionen.erdreich === 'bfaktor' && p.optionen.gebaeudeheizlast === 'summeRaeume'
+    const optionen = webModus
+      ? { ...p.optionen, erdreich: 'iso13370' as const, gebaeudeheizlast: 'huelle' as const }
+      : { ...p.optionen, erdreich: 'bfaktor' as const, gebaeudeheizlast: 'summeRaeume' as const }
+    try {
+      return { phiHL: berechne({ ...p, optionen }).phiHL, text: webModus ? 'zum Vergleich: Ansatz dieser App' : 'zum Vergleich: Ansatz heizlast-web' }
+    } catch {
+      return null
+    }
+  }, [p])
   const [offen, setOffen] = useState<string | null>(null)
 
   if (befundFehler > 0) return <p className="warnung">Es gibt noch {befundFehler} Fehler in den Eingaben – siehe „Prüfung".</p>
@@ -109,12 +121,45 @@ export function ErgebnisSchritt({ befundFehler }: { befundFehler: number }) {
             wert={p.anlage.heizkurve.maxVorlauf}
             onChange={(x) => aendern((q) => void (q.anlage.heizkurve.maxVorlauf = x))}
           />
+          <Auswahl<Projekt['optionen']['erdreich']>
+            label="Erdreich (Bodenplatte)"
+            wert={p.optionen.erdreich}
+            optionen={[
+              { wert: 'iso13370', text: 'EN ISO 13370 (U_equiv, f_g1, θ_m,e)' },
+              { wert: 'bfaktor', text: 'wie heizlast-web (b-Faktor)' },
+            ]}
+            hilfe="heizlast-web rechnet die Bodenplatte wie einen unbeheizten Nachbarraum: θ = 20 − b · (20 − θ_e)"
+            onChange={(x) => aendern((q) => void (q.optionen.erdreich = x))}
+          />
+          {p.optionen.erdreich === 'bfaktor' && (
+            <Zahl
+              label="b-Faktor Erdreich"
+              wert={p.optionen.erdreichB}
+              hilfe="heizlast-web: 0,33"
+              onChange={(x) => aendern((q) => void (q.optionen.erdreichB = x ?? 0.33))}
+            />
+          )}
+          <Auswahl<Projekt['optionen']['gebaeudeheizlast']>
+            label="Gebäudeheizlast"
+            wert={p.optionen.gebaeudeheizlast}
+            optionen={[
+              { wert: 'huelle', text: 'Außenhülle, Infiltration 50 % gleichzeitig' },
+              { wert: 'summeRaeume', text: 'Summe der Räume (wie heizlast-web)' },
+            ]}
+            onChange={(x) => aendern((q) => void (q.optionen.gebaeudeheizlast = x))}
+          />
         </div>
         <dl className="kennzahlen">
           <div>
             <dt>Gebäudeheizlast</dt>
             <dd>{fmt(g.phiHL / 1000, 2)} kW</dd>
           </div>
+          {vergleich !== null && (
+            <div>
+              <dt>{vergleich.text}</dt>
+              <dd>{fmt(vergleich.phiHL / 1000, 2)} kW</dd>
+            </div>
+          )}
           <div>
             <dt>spezifisch</dt>
             <dd>{fmt(g.wProM2, 0)} W/m²</dd>

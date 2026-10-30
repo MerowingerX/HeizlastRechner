@@ -332,6 +332,19 @@ export const ProjektSchema = z.object({
   verbrauch: z.array(VerbrauchSchema),
   /** Messreihen (Auskühl-/Aufheizversuche) */
   messreihen: z.array(MessreiheSchema).default([]),
+  /** Rechenoptionen (Vergleich mit anderen Programmen, z. B. heizlast-web) */
+  optionen: z
+    .object({
+      /** Bodenplatte auf Erdreich: 'iso13370' = U_equiv nach EN ISO 13370 mit f_g1 und θ_m,e;
+       *  'bfaktor' = wie unbeheizter Nachbarbereich mit b = erdreichB (heizlast-web) */
+      erdreich: z.enum(['iso13370', 'bfaktor']).default('iso13370'),
+      /** b-Faktor für Erdreich im Modus 'bfaktor' (heizlast-web: 0,33) */
+      erdreichB: z.number().default(0.33),
+      /** Gebäudeheizlast: 'huelle' = nur Außenhülle, Infiltration 50 % gleichzeitig;
+       *  'summeRaeume' = Summe der Raumheizlasten (heizlast-web) */
+      gebaeudeheizlast: z.enum(['huelle', 'summeRaeume']).default('huelle'),
+    })
+    .default({ erdreich: 'iso13370', erdreichB: 0.33, gebaeudeheizlast: 'huelle' }),
 })
 export type Projekt = z.infer<typeof ProjektSchema>
 
@@ -387,5 +400,6 @@ export function leeresProjekt(): Projekt {
     raeume: [],
     verbrauch: [],
     messreihen: [],
+    optionen: { erdreich: 'iso13370', erdreichB: 0.33, gebaeudeheizlast: 'huelle' },
   }
 }

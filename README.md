@@ -205,6 +205,17 @@ Die Gebäudeheizlast ist **nicht** die Summe der Raumheizlasten:
 Φ_HL,Gebäude = Φ_T,Hülle + Φ_V,Gebäude          H = Φ_HL / (20 − θ_e)
 ```
 
+### Rechenoptionen: Vergleich mit heizlast-web
+
+Zwei Schalter im Schritt „Ergebnis“ (Datei: `optionen`) bilden den Ansatz von [heizlast-web](https://github.com/mylius/heizlast-web) nach. App und CLI zeigen den jeweils anderen Ansatz immer als Vergleichswert an.
+
+| Option | Standard (diese App) | wie heizlast-web |
+|---|---|---|
+| `erdreich` | `iso13370`: U_equiv, f_g1, θ_m,e (Abschnitt 3) | `bfaktor`: Bodenplatte wie unbeheizter Nachbarbereich, `θ = 20 − b · (20 − θ_e)` mit b = 0,33, `Φ = A · (U + ΔU_TB) · Δθ` |
+| `gebaeudeheizlast` | `huelle`: Abschnitt 5 | `summeRaeume`: `Φ_HL = Σ Φ_T,i + Σ Φ_V,i` |
+
+Weitere Unterschiede, die nicht umschaltbar sind: heizlast-web rundet wie das Normformular (Flächen auf 0,01 m², jeden Posten auf ganze Watt), nutzt e fest 0,02/0,03 und rechnet das Raumvolumen aus Geschosshöhe minus Deckendicke.
+
 ### 6. Heizkörper und Vorlauf (EN 442)
 
 ```

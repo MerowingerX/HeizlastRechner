@@ -34,6 +34,8 @@ const ART: Record<string, string> = { aussen: 'außen', erdreich: 'Erdreich', un
 const bt = new Map(p.bauteile.map((b: any) => [b.id, b]))
 const thE = erg.thetaE
 const thMe = p.klima.thetaMe ?? 9
+const webErd = p.optionen.erdreich === 'bfaktor'
+const webGeb = p.optionen.gebaeudeheizlast === 'summeRaeume'
 const o: string[] = []
 
 o.push(`<section class="seite anhang">`)
@@ -76,7 +78,13 @@ o.push(`</table></div>`)
 o.push(`<p class="small">${m('\\Delta U_{TB}')}: pauschaler Wärmebrückenzuschlag. Grundlage DIN/TS 12831-1 (pauschaler Ansatz). Umsetzung: 0,10 W/(m²K) für alle Außenbauteile, 0 für Innenbauteile.</p>`)
 
 // Erdreich
-if (erg.bStrich !== null) {
+if (webErd) {
+  const th = 20 - p.optionen.erdreichB * (20 - thE)
+  o.push(`<h4>Bodenplatte auf Erdreich (Option „wie heizlast-web“)</h4>`)
+  o.push(M(`\\theta_{u,g} = 20 - b_g\\,(20 - \\theta_e) = 20 - ${t(p.optionen.erdreichB, 2)} \\cdot (20 - ${tk(thE, 0)}) = ${t(th, 1)}\\,°\\mathrm{C}, \\qquad \\Phi_{T,g} = A\\,(U + \\Delta U_{TB})\\,(\\theta_{int} - \\theta_{u,g})`))
+  o.push(Q('Rechenoption zum Vergleich mit heizlast-web: Erdreich wie ein unbeheizter Nachbarbereich mit Temperaturkorrektur b (DIN EN 12831-1). Nicht das Erdreichverfahren nach DIN EN ISO 13370.'))
+}
+if (!webErd && erg.bStrich !== null) {
   const fb = p.bauteile.find((b: any) => b.kategorie === 'FB') as any
   let ag = 0
   for (const r of p.raeume as any[])
@@ -119,7 +127,7 @@ for (const e of erg.raeume) {
   for (const x of e.posten) {
     const dt = e.thetaInt - x.thetaAdj
     const sub = x.oeffnungId ? ' class="sub"' : ''
-    const rech = x.art === 'erdreich'
+    const rech = x.art === 'erdreich' && !webErd
       ? m(`${t(x.flaeche, 2)} \\cdot ${t(x.uKorr, 3)} \\cdot ${t(F_G1, 2)} \\cdot ${t(G_W, 1)} \\cdot (${t(e.thetaInt, 0)} - ${t(x.thetaAdj, 1)})`)
       : m(`${t(x.flaeche, 2)} \\cdot ${t(x.uKorr, 3)} \\cdot (${t(e.thetaInt, 0)} - ${tk(x.thetaAdj, 1)})`)
     o.push(`<tr${sub}><td>${x.oeffnungId ? '↳ ' : ''}${esc(x.bezeichnung)}</td><td>${x.orientierung}</td><td>${ART[x.art] ?? x.art}</td><td>${rech}${dt === 0 ? '' : ''}</td><td class="n">${f(x.phi, 0)}</td></tr>`)
@@ -134,8 +142,13 @@ o.push(`<p class="small">U<sub>korr</sub> = U + ΔU<sub>TB</sub> (Erdreich: U<su
 // ---------------------------------------------------------------- D Gebäude
 const vGeb = erg.raeume.map((e: any) => Math.max(0.5 * e.vInf, e.vMin))
 o.push(`<h3>D Gebäudeheizlast</h3>`)
-o.push(M(`\\Phi_{HL} = \\sum_{\\text{Hülle}} \\Phi_{T} + \\rho\\,c_p \\sum_i \\max(0{,}5\\,\\dot V_{inf,i},\\ \\dot V_{min,i})\\,(\\theta_{int,i} - \\theta_e)`))
-o.push(Q('DIN EN 12831-1, Gebäudeheizlast: Wärmeströme zwischen beheizten Räumen heben sich auf, Infiltration wirkt nicht an allen Fassaden gleichzeitig. Umsetzung: Gleichzeitigkeit der Infiltration 0,5.'))
+if (webGeb) {
+  o.push(M(`\\Phi_{HL} = \\sum_i \\Phi_{T,i} + \\sum_i \\Phi_{V,i}`))
+  o.push(Q('Rechenoption zum Vergleich mit heizlast-web: Gebäudeheizlast als Summe der Raumheizlasten (Innenbauteile und volle Infiltration je Raum eingeschlossen).'))
+} else {
+  o.push(M(`\\Phi_{HL} = \\sum_{\\text{Hülle}} \\Phi_{T} + \\rho\\,c_p \\sum_i \\max(0{,}5\\,\\dot V_{inf,i},\\ \\dot V_{min,i})\\,(\\theta_{int,i} - \\theta_e)`))
+  o.push(Q('DIN EN 12831-1, Gebäudeheizlast: Wärmeströme zwischen beheizten Räumen heben sich auf, Infiltration wirkt nicht an allen Fassaden gleichzeitig. Umsetzung: Gleichzeitigkeit der Infiltration 0,5.'))
+}
 o.push(M(`\\Phi_{HL} = ${t(erg.phiT, 0)} + ${t(erg.phiV, 0)} = ${t(erg.phiHL, 0)}\\,\\mathrm{W}, \\qquad \\textstyle\\sum \\dot V = ${t(vGeb.reduce((s: number, x: number) => s + x, 0), 1)}\\,\\mathrm{m^3/h}`))
 o.push(M(`H = \\frac{\\Phi_{HL}}{20 - \\theta_e} = \\frac{${t(erg.phiHL, 0)}}{20 - ${tk(thE, 0)}} = ${t(erg.h, 1)}\\,\\mathrm{W/K}, \\qquad \\frac{\\Phi_{HL}}{A} = \\frac{${t(erg.phiHL, 0)}}{${t(erg.wohnflaeche, 1)}} = ${t(erg.wProM2, 1)}\\,\\mathrm{W/m^2}`))
 o.push(`<p class="small">Summe der Raumheizlasten zum Vergleich: ${f(erg.summeRaeume, 0)} W (für die Heizkörperauslegung je Raum maßgebend).</p>`)
